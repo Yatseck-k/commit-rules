@@ -1,6 +1,7 @@
 # commit_rules
 
 [Русская версия](README.ru.md)
+
 An agent skill that writes commit messages and PR descriptions following [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
 
 It works with any AI coding agent that supports `SKILL.md` instruction files. The agent reads the repository state itself (branch, status, diff, recent log), so you don't have to describe the changes. It shows a ready message and stops.
