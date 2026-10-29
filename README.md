@@ -1,4 +1,4 @@
-# commit_rules
+# commit-rules
 
 [Русская версия](README.ru.md)
 
