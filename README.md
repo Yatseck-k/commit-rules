@@ -52,3 +52,10 @@ Edit `SKILL.md` to fit your project:
 - **Language:** messages are written in English by default.
 - **Types:** the table in the `Types` section lists the allowed commit types.
 - **Forbidden:** the `Forbidden` section holds hard rules, for example the ban on AI attribution lines.
+
+## Related projects
+
+- [`ub-mode-php`](https://github.com/Yatseck-k/ub-mode-php) — an independent code-change workflow skill for PHP projects.
+- [`ub-cdmu-php`](https://github.com/Yatseck-k/ub-cdmu-php) — optional PHP quality analysis CLI (CRAP, duplication, mutation, UML).
+
+This skill is independent and does not require either project.
