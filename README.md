@@ -1,64 +1,71 @@
 # commit-rules
 
-[Русская версия](README.ru.md)
+**An AI coding agent skill for Conventional Commits and pull request descriptions.**
 
-An agent skill that writes commit messages and PR descriptions following [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+[Русский](README.ru.md) · [Skill instructions](SKILL.md) · [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
 
-It works with any AI coding agent that supports `SKILL.md` instruction files. The agent reads the repository state itself (branch, status, diff, recent log), so you don't have to describe the changes. It shows a ready message and stops.
+![Git](https://img.shields.io/badge/Focus-Git-F05032?logo=git&logoColor=white) ![AI agents](https://img.shields.io/badge/AI-agent%20skill-374151)
+
+## Overview
+
+`commit-rules` turns a repository's actual changes into concise, consistent **English commit messages** and **PR descriptions**. It works with coding agents that support `SKILL.md`, without application dependencies.
+
+The agent examines the branch, working tree, staged and unstaged diffs, and recent commits. It **does not stage or commit changes** unless explicitly requested.
 
 ## Features
 
-- Builds the message from `git diff HEAD`, preferring staged changes when there are any
-- Picks `type` and `scope` from the actual changes, using the branch name only as a hint
-- Short list-style body: `- <action> <change> (<reason>)`
-- Supports `Note:` for manual post-deploy steps and `!` / `BREAKING CHANGE:` for breaking changes
-- Generates PR descriptions (Summary / Testing / Notes)
-- Never commits or stages files without an explicit request
-- Never adds `Co-Authored-By` or other mentions of AI
+| Feature | Behavior |
+| --- | --- |
+| **Conventional Commits** | Selects a suitable `type` and optional `scope` from the diff |
+| **Accurate summaries** | Prioritizes staged changes when present; branch name is only a hint |
+| **Short bodies** | Describes meaningful changes in compact action-oriented bullets |
+| **Breaking changes** | Supports `!` and `BREAKING CHANGE:` |
+| **Deployment notes** | Includes `Note:` when manual actions are necessary |
+| **Pull requests** | Drafts Summary, Testing, and Notes sections |
+| **Explicit actions** | No automatic staging, committing or AI co-author lines |
 
 ## Installation
 
-Copy `SKILL.md` into the skills directory of your agent, in a folder named `commit-rules`:
+Copy [SKILL.md](SKILL.md) into the directory for your coding agent's skills:
 
 ```text
-<skills-dir>/commit-rules/SKILL.md
+<agent-skills-directory>/commit-rules/SKILL.md
 ```
 
-Use a global skills directory to make it available in all projects, or a project-level one to share it through the repository. The exact path depends on the agent, so check its documentation.
-
-If your agent has no skills support, add the contents of `SKILL.md` to its instruction file (for example `AGENTS.md`).
+If the agent does not support skills, adapt its instructions in the project's agent configuration file.
 
 ## Usage
 
-Ask the agent in natural language:
+Ask your agent to:
 
 ```text
-write a commit message
-write a PR description
+Write a commit message for the current changes.
+Write a pull request description for this branch.
 ```
 
 Example output:
 
 ```text
-feat(module): extend existing functionality
+feat(api): add task filtering
 
-- add new behavior (support additional scenarios)
-- update validation (handle invalid input)
-
-Note: update the configuration after deployment, or the new behavior will stay unavailable.
+- add status filters to task search
+- validate filter inputs to reject unsupported values
+- cover filtering behavior with tests
 ```
 
-## Customization
+The agent derives the actual content from the repository. It should not fabricate implementation details or test results. See [SKILL.md](SKILL.md) for precise rules and restrictions.
 
-Edit `SKILL.md` to fit your project:
+## Repository structure
 
-- **Language:** messages are written in English by default.
-- **Types:** the table in the `Types` section lists the allowed commit types.
-- **Forbidden:** the `Forbidden` section holds hard rules, for example the ban on AI attribution lines.
+```text
+SKILL.md      Complete agent instructions
+README.md     English overview
+README.ru.md  Russian overview
+```
 
 ## Related projects
 
-- [`ub-mode-php`](https://github.com/Yatseck-k/ub-mode-php) — an independent code-change workflow skill for PHP projects.
-- [`ub-cdmu-php`](https://github.com/Yatseck-k/ub-cdmu-php) — optional PHP quality analysis CLI (CRAP, duplication, mutation, UML).
+- [ub-mode-php](https://github.com/Yatseck-k/ub-mode-php) — independent disciplined PHP coding skill.
+- [ub-cdmu-php](https://github.com/Yatseck-k/ub-cdmu-php) — optional PHP quality analysis CLI.
 
-This skill is independent and does not require either project.
+`commit-rules` works independently of both projects.
