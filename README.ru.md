@@ -1,64 +1,71 @@
-# commit_rules
+# commit-rules
 
-[English version](README.md)
+**Скилл для AI-агентов: единые Git-коммиты и описания pull request.**
 
-Скилл для AI-агентов, который составляет сообщения коммитов и описания pull request по стандарту [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+[English](README.md) · [Инструкции скилла](SKILL.md) · [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
 
-Подходит для агентов разработки с поддержкой файлов инструкций `SKILL.md`. Агент самостоятельно анализирует состояние репозитория (ветку, статус, изменения и последние коммиты), поэтому описывать изменения вручную не нужно. Он показывает готовый текст и останавливается.
+![Git](https://img.shields.io/badge/Focus-Git-F05032?logo=git&logoColor=white) ![AI agents](https://img.shields.io/badge/AI-agent%20skill-374151)
+
+## Назначение
+
+`commit-rules` помогает AI-агентам составлять **англоязычные сообщения коммитов** и **описания PR** на основании реальных изменений репозитория. Для работы нужен только `SKILL.md`, зависимости приложения не требуются.
+
+Агент изучает ветку, статус, изменения и последние коммиты. **Без явного запроса он не добавляет файлы в индекс и не создаёт коммиты.**
 
 ## Возможности
 
-- Формирует сообщение на основе `git diff HEAD`, отдавая приоритет изменениям в индексе, если они есть.
-- Выбирает `type` и `scope` по фактическим изменениям; имя ветки использует только как подсказку.
-- Использует краткое тело в виде списка: `- <action> <change> (<reason>)`.
-- Поддерживает `Note:` для обязательных действий после развёртывания и `!` / `BREAKING CHANGE:` для несовместимых изменений.
-- Составляет описания PR с разделами Summary / Testing / Notes.
-- Не создаёт коммиты и не добавляет файлы в индекс без явного запроса.
-- Не добавляет `Co-Authored-By` и другие упоминания ИИ.
+| Функция | Поведение |
+| --- | --- |
+| **Conventional Commits** | Выбирает `type` и `scope` по изменениям |
+| **Точность** | Приоритет изменений в индексе; имя ветки — только подсказка |
+| **Краткое описание** | Тело сообщения в виде коротких пунктов |
+| **Несовместимые изменения** | Поддержка `!` и `BREAKING CHANGE:` |
+| **Действия после релиза** | Примечания `Note:` при необходимости |
+| **Pull requests** | Разделы Summary, Testing и Notes |
+| **Контроль** | Нет автоматических коммитов или указания ИИ как соавтора |
 
 ## Установка
 
-Скопируйте `SKILL.md` в каталог скиллов агента, в подпапку `commit-rules`:
+Скопируйте [SKILL.md](SKILL.md) в каталог скиллов вашего агента:
 
 ```text
-<skills-dir>/commit-rules/SKILL.md
+<agent-skills-directory>/commit-rules/SKILL.md
 ```
 
-Глобальный каталог делает скилл доступным во всех проектах; каталог внутри проекта позволяет хранить его вместе с репозиторием. Точный путь зависит от агента — проверьте его документацию.
-
-Если агент не поддерживает скиллы, добавьте содержимое `SKILL.md` в его файл инструкций (например, `AGENTS.md`).
+Если агент не поддерживает скиллы, перенесите инструкции в соответствующий конфигурационный файл проекта.
 
 ## Использование
 
-Попросите агента обычным текстом:
+Попросите агента:
 
 ```text
-write a commit message
-write a PR description
+Write a commit message for the current changes.
+Write a pull request description for this branch.
 ```
 
 Пример результата:
 
 ```text
-feat(module): extend existing functionality
+feat(api): add task filtering
 
-- add new behavior (support additional scenarios)
-- update validation (handle invalid input)
-
-Note: update the configuration after deployment, or the new behavior will stay unavailable.
+- add status filters to task search
+- validate filter inputs to reject unsupported values
+- cover filtering behavior with tests
 ```
 
-## Настройка
+Агент должен описывать фактические изменения, не придумывая детали реализации или результаты тестирования. Все ограничения указаны в [SKILL.md](SKILL.md).
 
-Измените `SKILL.md` под свой проект:
+## Структура
 
-- **Язык:** по умолчанию сообщения пишутся на английском.
-- **Типы:** допустимые типы коммитов перечислены в разделе `Types`.
-- **Запреты:** раздел `Forbidden` содержит обязательные ограничения, например запрет на упоминание ИИ в сообщениях.
+```text
+SKILL.md      Инструкции для агента
+README.md     Английская версия
+README.ru.md  Русская версия
+```
 
 ## Связанные проекты
 
-- [`ub-mode-php`](https://github.com/Yatseck-k/ub-mode-php) — независимый скилл для дисциплинированной работы с PHP-кодом.
-- [`ub-cdmu-php`](https://github.com/Yatseck-k/ub-cdmu-php) — необязательный PHP CLI для анализа качества (CRAP, дублирование, мутации, UML).
+- [ub-mode-php](https://github.com/Yatseck-k/ub-mode-php) — независимый скилл для работы с PHP-кодом.
+- [ub-cdmu-php](https://github.com/Yatseck-k/ub-cdmu-php) — необязательный CLI-анализатор качества PHP.
 
-Скилл `commit_rules` работает независимо от этих проектов.
+`commit-rules` не зависит от этих проектов.
